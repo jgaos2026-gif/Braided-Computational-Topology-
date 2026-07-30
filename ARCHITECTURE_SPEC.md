@@ -1947,6 +1947,220 @@ The performance testing framework will use the Tester Node infrastructure to run
 
 ---
 
+# Volume XI — Reference Applications
+
+## PharmaBraid Figure-Eight Accelerator
+
+**Status:** `[RESEARCH]` — Architectural design complete; no prototype implemented. This is a conceptual reference application demonstrating how the Braided Computational Topology framework applies to a high-stakes scientific domain. No pharmaceutical claims are made. Solid-state results produced by this system are computational research candidates only — they require laboratory experiments, clinical trials, professional peer review, and regulatory approval before any medical use.
+
+---
+
+### Overview
+
+The PharmaBraid Figure-Eight Accelerator is a computational architecture for rapidly screening and ranking drug candidates. It applies the Braided Computational Topology framework — including node pairing, the Gas → Liquid → Solid confidence model, the VERA gate, and the Phoenix Masternode — to the problem of pharmaceutical discovery.
+
+The system accelerates research by:
+
+- Searching larger molecular libraries than manual methods allow
+- Eliminating weak candidates early through structured verification
+- Reusing verified research evidence across multiple discovery cycles
+- Running multiple computational models in parallel
+- Maintaining a complete auditable record of why every candidate passed or failed
+- Recovering cleanly from software failures without contaminating prior results
+
+**The system does not prove that a molecule is safe or effective.** It produces a ranked, audited list of candidates that have passed defined computational verification criteria. Every solid-state result still requires real laboratory testing before it can be considered for medical use.
+
+---
+
+### The Figure-Eight Structure
+
+The system is organized as two connected computational loops that share a central crossing point — the VERA Pharmaceutical Gate. The shape of this structure is a figure eight (∞), which reflects both the continuous bidirectional flow of information and the mathematical concept of a closed braid with a crossing.
+
+```
+         DISCOVERY LOOP
+      Generate → Model → Rank
+           ↘             ↗
+             VERA GATE
+           ↗             ↘
+  Toxicity ← Verify ← Evidence
+        VERIFICATION LOOP
+```
+
+Information flows in both directions through the central crossing. Discovery results flow into Verification. Failed verification results return to Discovery carrying correction instructions. The VERA Gate is the architectural enforcement point: no candidate may exit the system as a trusted result without passing through it.
+
+---
+
+### Loop One — Discovery
+
+The Discovery Loop processes the raw scientific inputs of pharmaceutical research and generates candidate molecules for evaluation.
+
+**Inputs:**
+
+| Input Type | Description |
+|------------|-------------|
+| Disease targets | Proteins, receptors, or biological pathways associated with the condition being studied |
+| Protein structures | Three-dimensional structural data for candidate target proteins |
+| Existing medicines | Known drugs and their molecular structures, used as comparison baselines |
+| Molecular libraries | Large collections of known or computationally generated molecules |
+| Chemical properties | Molecular weight, solubility, binding affinity predictions, and related physicochemical data |
+| Predicted biological effects | Computational predictions of how a molecule will interact with biological systems |
+
+**Node Operations in the Discovery Loop:**
+
+1. **Generate:** Target Nodes and Molecule Builder Nodes combine disease target data with molecular library entries to produce candidate molecules. All generated candidates begin in Gas state.
+2. **Model:** Simulation Nodes model the predicted interaction between each candidate molecule and its target protein. Interaction Nodes and Dosage Modeler Nodes add interaction and dosage estimates to each candidate record.
+3. **Rank:** Research Nodes compare candidates against existing medicines and each other, producing a ranked shortlist for verification.
+
+---
+
+### Loop Two — Verification
+
+The Verification Loop applies systematic checks to each candidate produced by the Discovery Loop.
+
+**Checks Performed:**
+
+| Check | Responsible Node Pair |
+|-------|----------------------|
+| Toxicity risk assessment | Interaction Node ↔ Toxicity Node |
+| Drug interaction screening | Interaction Node ↔ Toxicity Node |
+| Molecular stability analysis | Molecule Builder ↔ Molecular Validator |
+| Dosage assumption review | Dosage Modeler ↔ Safety Checker |
+| Evidence quality assessment | Research Node ↔ Source Verification Node |
+| Reproducibility check | Simulation Node ↔ Reproduction Node |
+| Regulatory and safety criteria | (VERA Gate, described below) |
+
+**Node Operations in the Verification Loop:**
+
+1. **Evidence:** Evidence Nodes and Source Verification Nodes assess the quality and reproducibility of the scientific literature and data sources that support each candidate.
+2. **Verify:** Molecular Validator and Reproduction Nodes run independent verification of the Discovery Loop's predictions. A candidate that cannot be independently reproduced is demoted to Gas state and returned to Discovery with a failure annotation.
+3. **Toxicity:** Toxicity Nodes and Safety Checkers apply computational toxicity models. Candidates that exceed toxicity thresholds are eliminated. Elimination events are recorded in the Audit Ledger with the specific threshold violated.
+
+---
+
+### The VERA Pharmaceutical Gate
+
+The VERA Gate is the central crossing of the figure eight. It is the architectural equivalent of VERA (Section 30) operating in a pharmaceutical domain context.
+
+**Gate Function:**
+
+A candidate molecule may not transition from Liquid state to Solid state — and may not be returned as a trusted research candidate — without passing through the VERA Gate. The gate enforces:
+
+| Gate Criterion | Description |
+|----------------|-------------|
+| Evidence sufficiency | The candidate's supporting evidence meets the minimum defined evidence quality threshold |
+| Safety consistency | No verification node has flagged an unresolved safety concern |
+| Reproducibility | At least one independent reproduction of the key simulation result has been confirmed |
+| Source integrity | All cited data sources have passed Source Verification Node review |
+| Regulatory flag check | No known regulatory disqualifiers are present in the candidate record |
+
+A candidate that fails any gate criterion is returned to the Discovery Loop with a structured failure record. The failure record specifies which criterion was not met, what evidence would be required to meet it, and whether the failure is terminal (the molecule class is disqualified) or correctable (additional evidence or modeling could satisfy the criterion).
+
+**What the VERA Gate Does Not Do:**
+
+The VERA Gate enforces computational verification criteria. It does not perform wet-lab validation, clinical assessment, regulatory filing, or any form of medical judgment. A molecule that passes the VERA Gate is a **computational research candidate** — the beginning of a laboratory investigation, not the end of one.
+
+---
+
+### Specialized Node Pairs
+
+Each node in the PharmaBraid architecture operates with a paired checking node, following the quantum-inspired pairing model (Section 12). Pairs process the same input independently and compare results before submitting a joint output for verification. Disagreement triggers a Hunter Node investigation.
+
+| Primary Node | Paired Checking Node | Domain |
+|--------------|---------------------|--------|
+| Target Node | Evidence Node | Disease target validation |
+| Molecule Builder | Molecular Validator | Structural and chemical integrity |
+| Interaction Node | Toxicity Node | Interaction and safety cross-check |
+| Dosage Modeler | Safety Checker | Dosage assumption verification |
+| Simulation Node | Reproduction Node | Computational reproducibility |
+| Research Node | Source Verification Node | Literature and evidence integrity |
+| Failure Hunter | Recovery Node | Fault detection and system recovery |
+
+**Pairing is classical, not quantum.** The quantum-inspired label refers to the design pattern of complementary independent processing and coordinated state comparison, implemented on ordinary computer hardware. No quantum computing hardware is required or implied.
+
+---
+
+### Gas → Liquid → Solid in Pharmaceutical Discovery
+
+The confidence model maps directly to the stages of computational drug discovery:
+
+| State | Pharmaceutical Meaning | Examples |
+|-------|----------------------|---------|
+| **Gas** | Speculative candidates; unverified hypotheses | A newly generated molecule that has not been screened; a predicted binding affinity with no corroborating evidence |
+| **Liquid** | Candidates under active simulation and evidence testing; credible but not yet confirmed | A molecule that has passed initial toxicity screening and is being evaluated for reproducibility and dosage safety |
+| **Solid** | Candidates that have passed all defined computational verification criteria and the VERA Gate | A molecule with confirmed predicted binding, acceptable toxicity profile, reproducible simulations, and sufficient evidence quality |
+
+A Solid-state result is a **research candidate, not a medicine.** The solid label means the system's computational verification is complete — not that the molecule is proven safe or effective.
+
+---
+
+### Phoenix Pharmaceutical Masternode
+
+The Phoenix Masternode (Section 29) operates within the PharmaBraid system with a pharmaceutical-domain specialization.
+
+**Responsibilities:**
+
+- Maintain Trusted Checkpoints of the verified candidate database at defined intervals
+- Detect corrupted, contradictory, or tampered candidate records
+- Isolate failed or suspect simulation runs without discarding the broader research state
+- Coordinate recovery from software failures, data corruption, or interrupted simulation runs
+- Prevent faulty data from propagating into the Solid-state candidate record
+
+**Recovery Guarantee:**
+
+After any software failure, the system can recover to the last Trusted Checkpoint and resume from that point. No verified research result can be silently overwritten by a recovery event. All recovery actions are recorded in the Audit Ledger.
+
+---
+
+### Audit and Reproducibility
+
+Every candidate record in the PharmaBraid system carries a complete audit trail:
+
+- The data sources used to generate it
+- Every node pair that processed it
+- The outcome of every verification check
+- The reason for every state transition (promotion or demotion)
+- Every failure and the structured failure record
+- The identity of the VERA Gate approval event
+- The checkpoint at which the result was persisted
+
+This audit record is the primary scientific artifact of the system. It supports:
+
+- External review and replication attempts
+- Regulatory audit trails
+- Identification of systematic errors across multiple candidate runs
+- Version-controlled evolution of the verification criteria
+
+---
+
+### Scope and Limitations
+
+| Claim | Status |
+|-------|--------|
+| The system can search large molecular libraries computationally | `[RESEARCH]` — architectural design complete; implementation and benchmarking required |
+| The system eliminates weak candidates before laboratory testing | `[RESEARCH]` — dependent on validation of the computational models used |
+| The system produces an auditable record for every result | `[PLANNED]` — audit infrastructure defined; implementation pending |
+| The system proves a molecule is safe | **Not claimed.** This is outside the scope of any computational system |
+| The system proves a molecule is effective | **Not claimed.** Clinical evidence requires laboratory and human trials |
+| The system replaces regulatory review | **Not claimed.** Regulatory approval is required and cannot be replaced by software verification |
+| The system's Solid-state results are ready for human use | **Not claimed.** Solid state means computational verification is complete, not medical validation |
+
+---
+
+### Integration with the Broader Architecture
+
+The PharmaBraid Figure-Eight Accelerator is implemented as a domain-specific configuration of the core Braided Computational Topology platform:
+
+- Node pairs are drawn from the standard node taxonomy (Section 15) with pharmaceutical-domain specializations
+- The VERA Gate is a domain-configured instance of VERA (Section 30) with pharmaceutical verification policies
+- The Phoenix Masternode is the standard Phoenix Masternode (Section 29) with domain-specific checkpoint policies
+- The candidate database is stored in Memory Nodes (Section 15) with Solid-state records in the Enterprise Ledger (Section 34)
+- The Audit Ledger (Section 51) provides the complete candidate history
+- The system is deployed as a set of Stitch Bricks (Volume VI) on the OASIS or SB-712 runtime
+
+A Medical Research Brick (see Reference Bricks, Volume VI) provides the pharmaceutical domain layer as a deployable Brick component.
+
+---
+
 # Appendices
 
 ## A. Glossary
