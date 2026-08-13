@@ -1,0 +1,16 @@
+{
+  "base_dir": "..",
+  "repos": {
+    "Braided-Computational-Topology-": {
+      "path": "../Braided-Computational-Topology-"
+    },
+    "example-node-app": {
+      "path": "../example-node-app",
+      "command": "npm run dev"
+    },
+    "example-python-app": {
+      "path": "../example-python-app",
+      "command": ["python", "main.py"]
+    }
+  }
+}
