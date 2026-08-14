@@ -11,6 +11,7 @@ It can:
 - open a repo folder in the system file browser
 - run common app entry commands when they can be inferred
 - generate a desktop helper script
+- generate one desktop launcher per discovered repo
 
 ### Quick start
 
@@ -31,6 +32,14 @@ Create a desktop helper script:
 ```bash
 python /home/runner/work/Braided-Computational-Topology-/Braided-Computational-Topology-/launcher.py create-desktop-script
 ```
+
+Create desktop launchers for every discovered repo:
+
+```bash
+python /home/runner/work/Braided-Computational-Topology-/Braided-Computational-Topology-/launcher.py create-desktop-launchers
+```
+
+That command writes runnable `.sh` or `.cmd` files to your desktop so you can launch each repo directly from there.
 
 ### Optional config
 

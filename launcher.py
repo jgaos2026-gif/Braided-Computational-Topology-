@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
+import re
 import shlex
 import subprocess
 import sys
@@ -146,6 +146,11 @@ def desktop_script_suffix(platform_name: str) -> str:
     return ".cmd" if platform_name == "windows" else ".sh"
 
 
+def sanitize_script_name(name: str) -> str:
+    sanitized = re.sub(r"[^A-Za-z0-9._-]+", "-", name).strip("-.")
+    return sanitized or "repo"
+
+
 def generate_desktop_script(
     launcher_path: Path,
     destination_dir: Path,
@@ -183,6 +188,65 @@ def generate_desktop_script(
     return script_path
 
 
+def generate_repo_desktop_script(
+    launcher_path: Path,
+    repo: RepoSpec,
+    destination_dir: Path,
+    platform_name: str | None = None,
+    action: str = "launch",
+) -> Path:
+    platform_name = platform_name or current_platform()
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    filename = f"{sanitize_script_name(repo.name)}{desktop_script_suffix(platform_name)}"
+    script_path = destination_dir / filename
+    launcher = str(launcher_path.resolve())
+
+    if platform_name == "windows":
+        content = "\n".join(
+            [
+                "@echo off",
+                f"python \"{launcher}\" {action} \"{repo.name}\"",
+                "",
+            ]
+        )
+    else:
+        python_executable = shlex.quote(sys.executable)
+        quoted_launcher = shlex.quote(launcher)
+        quoted_repo = shlex.quote(repo.name)
+        content = "\n".join(
+            [
+                "#!/usr/bin/env bash",
+                "set -euo pipefail",
+                f"{python_executable} {quoted_launcher} {action} {quoted_repo}",
+                "",
+            ]
+        )
+
+    script_path.write_text(content, encoding="utf-8")
+    if platform_name != "windows":
+        script_path.chmod(script_path.stat().st_mode | 0o111)
+    return script_path
+
+
+def generate_repo_desktop_scripts(
+    launcher_path: Path,
+    repos: Iterable[RepoSpec],
+    destination_dir: Path,
+    platform_name: str | None = None,
+    action: str = "launch",
+) -> list[Path]:
+    return [
+        generate_repo_desktop_script(
+            launcher_path=launcher_path,
+            repo=repo,
+            destination_dir=destination_dir,
+            platform_name=platform_name,
+            action=action,
+        )
+        for repo in repos
+    ]
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Launch nearby repositories and apps.")
     parser.add_argument(
@@ -215,6 +279,17 @@ def build_parser() -> argparse.ArgumentParser:
         default=desktop_dir(),
         help="Directory for the generated script.",
     )
+
+    desktop_launchers_parser = subparsers.add_parser(
+        "create-desktop-launchers",
+        help="Create one desktop launcher script per discovered repository.",
+    )
+    desktop_launchers_parser.add_argument(
+        "--destination",
+        type=Path,
+        default=desktop_dir(),
+        help="Directory for the generated scripts.",
+    )
     return parser
 
 
@@ -246,6 +321,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "create-desktop-script":
         script_path = generate_desktop_script(Path(__file__), args.destination)
         print(script_path)
+        return 0
+    if args.command == "create-desktop-launchers":
+        script_paths = generate_repo_desktop_scripts(Path(__file__), repos.values(), args.destination)
+        for script_path in script_paths:
+            print(script_path)
         return 0
 
     try:

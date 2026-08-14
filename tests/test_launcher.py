@@ -63,6 +63,36 @@ class LauncherTests(unittest.TestCase):
             self.assertIn("python", content)
             self.assertIn("/tmp/launcher.py", content)
 
+    def test_generate_repo_desktop_script_sanitizes_filename(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            script = launcher.generate_repo_desktop_script(
+                Path("/tmp/launcher.py"),
+                launcher.RepoSpec("alpha repo!", Path("/repos/alpha")),
+                Path(temp_dir),
+                platform_name="linux",
+            )
+
+            content = script.read_text(encoding="utf-8")
+
+            self.assertEqual(script.name, "alpha-repo.sh")
+            self.assertIn("launch", content)
+            self.assertIn("alpha repo!", content)
+
+    def test_generate_repo_desktop_scripts_creates_one_per_repo(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            scripts = launcher.generate_repo_desktop_scripts(
+                Path("/tmp/launcher.py"),
+                [
+                    launcher.RepoSpec("alpha", Path("/repos/alpha")),
+                    launcher.RepoSpec("beta", Path("/repos/beta"), ("python", "main.py")),
+                ],
+                Path(temp_dir),
+                platform_name="linux",
+            )
+
+            self.assertEqual(len(scripts), 2)
+            self.assertTrue(all(script.exists() for script in scripts))
+
     def test_repo_lines_include_commands(self) -> None:
         repos = [
             launcher.RepoSpec("alpha", Path("/repos/alpha"), ("python", "main.py")),
